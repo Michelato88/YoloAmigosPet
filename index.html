@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YOLO Calmart · AmigosPet 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', Arial, sans-serif;
+    background: #E8ECF5;
+    min-height: 100vh;
+    padding: 32px 16px 48px;
+    color: #0A0A2E;
+  }
+
+  .doc {
+    background: #F4F6FA;
+    border-radius: 20px;
+    overflow: hidden;
+    max-width: 780px;
+    margin: 0 auto;
+    box-shadow: 0 4px 40px rgba(0,0,102,0.12);
+  }
+
+  /* ── COVER ── */
+  .cover {
+    background: #000066;
+    padding: 40px 48px 36px;
+  }
+  .logo-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 36px;
+  }
+  .yico {
+    width: 44px; height: 44px;
+    background: #000;
+    border-radius: 11px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 22px; color: #fff;
+    position: relative; flex-shrink: 0;
+  }
+  .ydot {
+    width: 6px; height: 6px;
+    background: #fff; border-radius: 50%;
+    position: absolute; bottom: 7px; left: 8px;
+  }
+  .yb-name { font-weight: 900; font-size: 13px; letter-spacing: 2px; color: #fff; text-transform: uppercase; }
+  .yb-tag  { font-size: 10px; color: #0099FF; letter-spacing: 1px; text-transform: uppercase; margin-top: 2px; }
+  .vline   { width: 1px; height: 32px; background: rgba(255,255,255,0.2); margin: 0 6px; }
+  .ev-lbl  { font-size: 11px; color: rgba(255,255,255,0.45); letter-spacing: 1px; text-transform: uppercase; }
+  .cover-title { font-weight: 900; font-size: 32px; text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.1; color: #fff; margin-bottom: 8px; }
+  .cover-sub   { font-size: 12px; color: #0099FF; letter-spacing: 1.5px; text-transform: uppercase; }
+
+  /* ── SECTION ── */
+  .sec {
+    padding: 32px 48px;
+    border-bottom: 1px solid #DDE3EF;
+  }
+  .sec:last-of-type { border-bottom: none; }
+  .sec-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #0099FF; margin-bottom: 4px; }
+  .sec-title   { font-weight: 900; font-size: 20px; text-transform: uppercase; color: #000066; margin-bottom: 22px; letter-spacing: 0.3px; }
+
+  /* ── AXES ── */
+  .axis-lbl  { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #8A95B0; margin-bottom: 8px; }
+  .axis-row  { display: flex; align-items: stretch; margin-bottom: 8px; }
+  .opt       { flex: 1; padding: 16px 18px; text-align: center; }
+  .opt:first-child { border-radius: 10px 0 0 10px; }
+  .opt:last-child  { border-radius: 0 10px 10px 0; }
+  .opt.past  { background: #EEF1F8; border: 1px solid #D5DBE8; }
+  .opt.now   { background: #000066; border: 1px solid #000066; }
+  .opt-st    { font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 3px; }
+  .opt.past .opt-st { color: #A0AABF; }
+  .opt.now  .opt-st { color: rgba(0,153,255,0.85); }
+  .opt-nm   { font-size: 16px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px; }
+  .opt.past .opt-nm { color: #B0BBCC; }
+  .opt.now  .opt-nm { color: #fff; }
+  .opt-ds   { font-size: 11px; margin-top: 4px; line-height: 1.4; }
+  .opt.past .opt-ds { color: #B8C2D0; }
+  .opt.now  .opt-ds { color: rgba(255,255,255,0.6); }
+  .arr-mid  { width: 36px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+
+  .axis-note { background: #E8EDF8; border-left: 3px solid #0099FF; padding: 10px 14px; margin-bottom: 18px; }
+  .axis-note p { font-size: 12px; color: #4A5578; line-height: 1.65; }
+  .axis-note strong { color: #000066; font-weight: 700; }
+
+  .effect-box  { background: #000066; border-radius: 10px; padding: 16px 18px; margin-top: 4px; }
+  .effect-tag  { font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #0099FF; margin-bottom: 6px; }
+  .effect-text { font-size: 12px; color: rgba(255,255,255,0.65); line-height: 1.7; }
+  .effect-text strong { color: #fff; font-weight: 700; }
+
+  /* ── BLOCKS ── */
+  .blk   { background: #fff; border-radius: 10px; padding: 14px 16px; margin-bottom: 10px; border: 1px solid #DDE3EF; border-left: 3px solid #0099FF; }
+  .blk-t { font-weight: 700; font-size: 13px; color: #000066; margin-bottom: 5px; }
+  .blk-p { font-size: 12px; color: #4A5578; line-height: 1.7; }
+
+  .bench    { background: #fff; border: 1px solid #DDE3EF; border-radius: 10px; padding: 14px 16px; margin-bottom: 10px; }
+  .bench-nm { font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #A0AABF; margin-bottom: 4px; }
+  .bench-p  { font-size: 12px; color: #4A5578; line-height: 1.65; }
+
+  /* ── POSITION MAP ── */
+  .pos-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+  .pos-c   { border-radius: 10px; padding: 14px 12px; text-align: center; }
+  .pos-c.lo { background: #EEF1F8; border: 1px solid #D5DBE8; }
+  .pos-c.mi { background: #000066; border: 2px solid #000066; }
+  .pos-c.hi { background: #EEF1F8; border: 1px solid #D5DBE8; }
+  .pos-tier  { font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 3px; }
+  .pos-c.lo .pos-tier, .pos-c.hi .pos-tier { color: #A0AABF; }
+  .pos-c.mi .pos-tier { color: #0099FF; }
+  .pos-brand { font-size: 13px; font-weight: 900; text-transform: uppercase; }
+  .pos-c.lo .pos-brand, .pos-c.hi .pos-brand { color: #B0BBCC; }
+  .pos-c.mi .pos-brand { color: #fff; }
+  .pos-desc  { font-size: 11px; margin-top: 3px; line-height: 1.4; }
+  .pos-c.lo .pos-desc, .pos-c.hi .pos-desc { color: #B8C2D0; }
+  .pos-c.mi .pos-desc { color: rgba(255,255,255,0.6); }
+
+  /* ── PITCH ── */
+  .pitch     { background: #fff; border: 1px solid #C8D4EE; border-radius: 10px; padding: 16px 18px; margin-bottom: 10px; }
+  .pitch-tag { font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #0099FF; margin-bottom: 8px; }
+  .pitch-q   { font-size: 13px; color: #1A2250; line-height: 1.75; font-style: italic; }
+  .pitch-n   { font-size: 11px; color: #8A95B0; margin-top: 8px; }
+
+  /* ── TONE ── */
+  .tone-g   { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+  .tone-yes { background: #fff; border-radius: 10px; padding: 14px 16px; border: 1px solid #DDE3EF; border-left: 3px solid #0099FF; }
+  .tone-no  { background: #fff; border-radius: 10px; padding: 14px 16px; border: 1px solid #DDE3EF; border-left: 3px solid #E05555; }
+  .tone-lbl { font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px; }
+  .tone-yes .tone-lbl { color: #0099FF; }
+  .tone-no  .tone-lbl { color: #C04444; }
+  .tone-lines { font-size: 12px; color: #4A5578; line-height: 2.0; }
+
+  /* ── GRIDS ── */
+  .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+  .g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+  .mc   { background: #fff; border-radius: 10px; padding: 14px 16px; border: 1px solid #DDE3EF; }
+  .mc-l { font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #0099FF; margin-bottom: 5px; }
+  .mc-v { font-size: 13px; font-weight: 700; color: #000066; line-height: 1.35; }
+  .mc-s { font-size: 11px; color: #8A95B0; margin-top: 3px; line-height: 1.4; }
+
+  /* ── HIGHLIGHT ── */
+  .hl     { background: #0099FF; border-radius: 10px; padding: 18px 20px; margin-bottom: 10px; }
+  .hl-tag { font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(0,0,80,0.6); margin-bottom: 5px; }
+  .hl-t   { font-weight: 900; font-size: 15px; text-transform: uppercase; color: #000066; letter-spacing: 0.3px; margin-bottom: 6px; }
+  .hl-p   { font-size: 12px; color: rgba(0,0,80,0.82); line-height: 1.7; }
+
+  /* ── TABLES ── */
+  .badge-row { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
+  .badge-row span.note { font-size: 11px; color: #8A95B0; }
+  .bdg   { display: inline-block; background: #000066; color: #fff; font-size: 9px; font-weight: 700; padding: 3px 9px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .bdg-f { display: inline-block; background: #E8EDF8; color: #000066; font-size: 9px; font-weight: 700; padding: 3px 9px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px; border: 1px solid #C8D4EE; }
+  .tw    { border-radius: 10px; overflow: hidden; border: 1px solid #DDE3EF; margin-bottom: 10px; }
+  .tw table { width: 100%; border-collapse: collapse; font-size: 12px; table-layout: fixed; }
+  .tw th { background: #E8EDF8; color: #000066; font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 10px 14px; text-align: left; }
+  .tw td { padding: 10px 14px; color: #4A5578; border-top: 1px solid #EEF1F8; vertical-align: top; }
+  .tw tr:hover td { background: #F7F9FD; }
+  .ph   { color: #C07820; font-style: italic; }
+  .ph-note { font-size: 10px; color: #C07820; margin-top: 4px; }
+
+  /* ── STEPS ── */
+  .steps    { list-style: none; margin-bottom: 10px; }
+  .steps li { display: flex; gap: 13px; align-items: flex-start; margin-bottom: 10px; }
+  .step-n   { min-width: 26px; height: 26px; background: #000066; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 11px; flex-shrink: 0; margin-top: 1px; }
+  .step-p   { font-size: 12px; color: #4A5578; line-height: 1.65; padding-top: 3px; }
+  .step-b   { font-weight: 700; color: #000066; }
+
+  /* ── SIDE NOTES ── */
+  .sn-card   { background: #fff; border: 1px solid #DDE3EF; border-radius: 12px; padding: 18px 20px; margin-bottom: 12px; position: relative; }
+  .sn-card::before { content: ''; position: absolute; left: 0; top: 18px; bottom: 18px; width: 3px; background: #0099FF; border-radius: 0 2px 2px 0; }
+  .sn-num   { font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #0099FF; margin-bottom: 6px; padding-left: 14px; }
+  .sn-title { font-size: 13px; font-weight: 700; color: #000066; margin-bottom: 8px; padding-left: 14px; line-height: 1.35; }
+  .sn-body  { font-size: 12px; color: #4A5578; line-height: 1.8; padding-left: 14px; }
+  .sn-body strong { color: #000066; font-weight: 700; }
+  .sn-tag   { display: inline-block; background: #E8EDF8; border: 1px solid #C8D4EE; border-radius: 4px; padding: 3px 9px; font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #000066; margin-top: 10px; margin-left: 14px; }
+
+  /* ── FOOTER ── */
+  .foot   { background: #000066; padding: 16px 48px; display: flex; justify-content: space-between; align-items: center; }
+  .foot-t { font-size: 11px; color: rgba(255,255,255,0.3); letter-spacing: 0.5px; }
+  .foot-b { font-size: 10px; color: #0099FF; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+
+  .hdiv { border: none; border-top: 1px solid #DDE3EF; margin: 0; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    body { padding: 0; }
+    .doc { border-radius: 0; }
+    .cover, .sec, .sn-sec, .foot { padding-left: 24px; padding-right: 24px; }
+    .cover-title { font-size: 24px; }
+    .pos-row { grid-template-columns: 1fr; }
+    .g2, .tone-g { grid-template-columns: 1fr; }
+    .g3 { grid-template-columns: 1fr 1fr; }
+    .tone-g { grid-template-columns: 1fr; }
+    .axis-row { flex-direction: column; gap: 6px; }
+    .opt:first-child { border-radius: 10px 10px 0 0; }
+    .opt:last-child  { border-radius: 0 0 10px 10px; }
+    .arr-mid { transform: rotate(90deg); align-self: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="doc">
+
+  <!-- COVER -->
+  <div class="cover">
+    <div class="logo-row">
+      <div class="yico">Y<div class="ydot"></div></div>
+      <div>
+        <div class="yb-name">YOLO Calmart</div>
+        <div class="yb-tag">Your Only Loyal One</div>
+      </div>
+      <div class="vline"></div>
+      <div class="ev-lbl">AmigosPet 2026 · Briefing estratégico</div>
+    </div>
+    <div class="cover-title">Foco, posicionamento<br>e estratégia de estande</div>
+    <div class="cover-sub">Framework · Pitch · Layout · Leads · Ação comercial</div>
+  </div>
+
+  <!-- 01 FRAMEWORK -->
+  <div class="sec">
+    <div class="sec-eyebrow">01 — Framework de foco</div>
+    <div class="sec-title">Onde estamos e para onde vamos</div>
+
+    <div class="axis-lbl">Eixo 01 — Construção de negócio</div>
+    <div class="axis-row">
+      <div class="opt past">
+        <div class="opt-st">até aqui</div>
+        <div class="opt-nm">Venda</div>
+        <div class="opt-ds">Giro imediato, sem canal, sem marca</div>
+      </div>
+      <div class="arr-mid">
+        <svg width="34" height="24" viewBox="0 0 34 24"><line x1="0" y1="12" x2="26" y2="12" stroke="#0099FF" stroke-width="1.5"/><path d="M20 6L30 12L20 18" fill="none" stroke="#0099FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="opt now">
+        <div class="opt-st">agora</div>
+        <div class="opt-nm">Marca</div>
+        <div class="opt-ds">Canal, discurso, relação com lojista</div>
+      </div>
+    </div>
+    <div class="axis-note">
+      <p><strong>A venda continua.</strong> O que muda é que cada venda serve a um propósito maior: construir presença no canal certo e não ficar refém de qualquer cliente/canal.</p>
+    </div>
+
+    <div class="axis-lbl">Eixo 02 — Canal prioritário</div>
+    <div class="axis-row">
+      <div class="opt past">
+        <div class="opt-st">até aqui</div>
+        <div class="opt-nm">Seller</div>
+        <div class="opt-ds">Marketplace, zero marca, mark-up 2,1×</div>
+      </div>
+      <div class="arr-mid">
+        <svg width="34" height="24" viewBox="0 0 34 24"><line x1="0" y1="12" x2="26" y2="12" stroke="#0099FF" stroke-width="1.5"/><path d="M20 6L30 12L20 18" fill="none" stroke="#0099FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="opt now">
+        <div class="opt-st">agora</div>
+        <div class="opt-nm">Lojista</div>
+        <div class="opt-ds">Pet shops, vets, distribuidores</div>
+      </div>
+    </div>
+    <div class="axis-note">
+      <p><strong>O seller não some.</strong> Quanto mais forte a proposta ao lojista, mais inspiracional somos ao seller — e podemos operar o seller sem marca, só com produto e preço.</p>
+    </div>
+
+    <div class="effect-box">
+      <div class="effect-tag">O efeito colateral positivo</div>
+      <div class="effect-text">Marca forte no lojista eleva percepção no marketplace sem custo adicional. <strong>Lojista forte → seller inspirado → mais giro → marca que se sustenta.</strong></div>
+    </div>
+  </div>
+
+  <hr class="hdiv">
+
+  <!-- 02 CONTEXTO -->
+  <div class="sec">
+    <div class="sec-eyebrow">02 — Contexto e problema</div>
+    <div class="sec-title">Por que essa definição é urgente</div>
+
+    <div class="blk">
+      <div class="blk-t">Quem somos hoje</div>
+      <div class="blk-p">35+ anos de fábrica. Últimos 3 com produtos acabados, incluindo linha pet. Histórico em insumos — especialmente calçadista. Embalagem desenvolvida e voltada ao lojista, mas sem canal de lojista construído.</div>
+    </div>
+    <div class="blk">
+      <div class="blk-t">O problema central — nem uma coisa, nem outra com maestria</div>
+      <div class="blk-p">Venda a sellers, galpões de dropshipping e poucas lojas físicas. O seller demanda zero marca, logística unitária e mark-up fixo. A empresa quer marca para perpetuidade — mas ainda sem produto consagrado, canal desenvolvido ou discurso ao lojista.</div>
+    </div>
+    <div class="bench">
+      <div class="bench-nm">Referência — São Benedito</div>
+      <div class="bench-p">Décadas de mercado, estande simples, embalagem sem refinamento. O que fazem bem: consistência total na proposta. Preço justo, produto de giro, entrega pontual. O mercado confia porque nunca tentaram ser o que não são.</div>
+    </div>
+    <div class="pos-row">
+      <div class="pos-c lo">
+        <div class="pos-tier">Preço</div>
+        <div class="pos-brand">São Benedito</div>
+        <div class="pos-desc">Giro, consistência, sem refinamento</div>
+      </div>
+      <div class="pos-c mi">
+        <div class="pos-tier">Nosso espaço</div>
+        <div class="pos-brand">YOLO Calmart</div>
+        <div class="pos-desc">Qualidade premium a preço de fábrica</div>
+      </div>
+      <div class="pos-c hi">
+        <div class="pos-tier">Premium</div>
+        <div class="pos-brand">Zee.Dog</div>
+        <div class="pos-desc">Lifestyle, aspiracional, margem alta</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hdiv">
+
+  <!-- 03 PITCH -->
+  <div class="sec">
+    <div class="sec-eyebrow">03 — Posicionamento e pitch</div>
+    <div class="sec-title">Como nos apresentamos ao lojista</div>
+
+    <div class="pitch">
+      <div class="pitch-tag">Abertura — ao lojista</div>
+      <div class="pitch-q">"A YOLO Calmart tem 35 anos de fábrica. Não somos marca nova tentando se firmar — somos indústria consolidada que decidiu fazer produto acabado com o mesmo rigor de sempre. Você leva qualidade de prateleira premium com preço de quem fabrica direto. Sem intermediário."</div>
+      <div class="pitch-n">Tom: direto, seguro, sem forçar. Deixa o produto falar junto.</div>
+    </div>
+    <div class="pitch">
+      <div class="pitch-tag">Reforço — por que não o mais barato?</div>
+      <div class="pitch-q">"O shopper de pet shop exige mais hoje. Embalagem ruim quebra gôndola. Produto sem apelo não gira. A gente entrega o que seu cliente vai querer pegar na prateleira — e você não precisa cobrar o preço da Zee.Dog pra ter essa qualidade."</div>
+    </div>
+    <div class="tone-g">
+      <div class="tone-yes">
+        <div class="tone-lbl">Falar assim</div>
+        <div class="tone-lines">
+          "Somos fábrica. Compra direto de quem faz."<br>
+          "35 anos no mercado — não sumimos."<br>
+          "Melhor margem pro PDV com produto que gira."
+        </div>
+      </div>
+      <div class="tone-no">
+        <div class="tone-lbl">Evitar</div>
+        <div class="tone-lines">
+          "Somos os mais baratos do mercado."<br>
+          "Marca nova, mas com potencial."<br>
+          "Pode testar, qualquer coisa a gente resolve."
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hdiv">
+
+  <!-- 04 ESTANDE -->
+  <div class="sec">
+    <div class="sec-eyebrow">04 — Layout do estande</div>
+    <div class="sec-title">Estrutura física e comunicação visual</div>
+
+    <div class="blk">
+      <div class="blk-t">Gancheiras — exposição de produto</div>
+      <div class="blk-p">Produtos organizados por categoria, visíveis da passagem. Cada item com etiqueta de preço padrão e preço de feira. Layout limpo, espaçamento generoso. O estande comunica qualidade antes de qualquer conversa.</div>
+    </div>
+    <div class="blk">
+      <div class="blk-t">Letreiros e identidade visual</div>
+      <div class="blk-p">Fundo #000066, acento #0099FF, tipografia bold em maiúsculas. Painel principal: "Fábrica direta. Qualidade premium. Preço justo." Sem poluição visual — cada elemento tem função.</div>
+    </div>
+    <div class="g2">
+      <div class="mc">
+        <div class="mc-l">Zona quente</div>
+        <div class="mc-v">Entrada do estande</div>
+        <div class="mc-s">Produto âncora + letreiro de posicionamento</div>
+      </div>
+      <div class="mc">
+        <div class="mc-l">Zona de conversão</div>
+        <div class="mc-v">Balcão interno</div>
+        <div class="mc-s">Pitch, tabela de preços, coleta de lead</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hdiv">
+
+  <!-- 05 TABELAS -->
+  <div class="sec">
+    <div class="sec-eyebrow">05 — Tabela de preços</div>
+    <div class="sec-title">Condições padrão e condições de feira</div>
+
+    <div class="badge-row"><span class="bdg">Preço padrão</span><span class="note">Condições de catálogo</span></div>
+    <div class="tw">
+      <table>
+        <tr><th style="width:36%">Produto</th><th style="width:20%">Ref.</th><th style="width:22%">Preço unit.</th><th style="width:22%">Ped. mínimo</th></tr>
+        <tr><td><span class="ph">[Produto A]</span></td><td><span class="ph">[SKU]</span></td><td><span class="ph">R$ —</span></td><td><span class="ph">— un.</span></td></tr>
+        <tr><td><span class="ph">[Produto B]</span></td><td><span class="ph">[SKU]</span></td><td><span class="ph">R$ —</span></td><td><span class="ph">— un.</span></td></tr>
+        <tr><td><span class="ph">[Produto C]</span></td><td><span class="ph">[SKU]</span></td><td><span class="ph">R$ —</span></td><td><span class="ph">— un.</span></td></tr>
+      </table>
+    </div>
+
+    <div class="badge-row" style="margin-top:18px"><span class="bdg-f">Condição de feira</span><span class="note">Fechado na AmigosPet</span></div>
+    <div class="tw">
+      <table>
+        <tr><th style="width:36%">Produto</th><th style="width:20%">Preço feira</th><th style="width:22%">Desconto</th><th style="width:22%">Condição</th></tr>
+        <tr><td><span class="ph">[Produto A]</span></td><td><span class="ph">R$ —</span></td><td><span class="ph">—%</span></td><td><span class="ph">[pagto/prazo]</span></td></tr>
+        <tr><td><span class="ph">[Produto B]</span></td><td><span class="ph">R$ —</span></td><td><span class="ph">—%</span></td><td><span class="ph">[pagto/prazo]</span></td></tr>
+        <tr><td><span class="ph">[Produto C]</span></td><td><span class="ph">R$ —</span></td><td><span class="ph">—%</span></td><td><span class="ph">[pagto/prazo]</span></td></tr>
+      </table>
+    </div>
+    <p class="ph-note">* Campos em laranja = a preencher antes da apresentação</p>
+  </div>
+
+  <hr class="hdiv">
+
+  <!-- 06 AÇÃO COMERCIAL -->
+  <div class="sec">
+    <div class="sec-eyebrow">06 — Ação comercial</div>
+    <div class="sec-title">Enxoval de junho — primeiro pedido</div>
+
+    <div class="hl">
+      <div class="hl-tag">Proposta</div>
+      <div class="hl-t">Enxoval inicial YoloPet · válido até 30/06</div>
+      <div class="hl-p">Para pedidos realizados em junho: <strong>[desconto X% ou kit enxoval a definir]</strong>. Reduz a barreira de entrada e gera o primeiro pedido — o mais difícil. O lojista que compra uma vez e gira o produto volta.</div>
+    </div>
+    <div class="g2">
+      <div class="mc">
+        <div class="mc-l">Gatilho</div>
+        <div class="mc-v">Primeiro pedido em junho</div>
+        <div class="mc-s">CNPJs sem histórico conosco</div>
+      </div>
+      <div class="mc">
+        <div class="mc-l">Benefício</div>
+        <div class="mc-v"><span class="ph">[Enxoval ou % desconto]</span></div>
+        <div class="mc-s">A definir com diretoria</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hdiv">
+
+  <!-- 07 LEADS -->
+  <div class="sec">
+    <div class="sec-eyebrow">07 — Coleta de leads</div>
+    <div class="sec-title">Ferramenta e fluxo de captação</div>
+
+    <div class="blk">
+      <div class="blk-t">Ferramenta: formulário HTML próprio — tablet no balcão</div>
+      <div class="blk-p">Sem dependência de internet. Dados salvos localmente. Ao fim da feira, exportação para follow-up com disparo via WhatsApp.</div>
+    </div>
+    <ul class="steps">
+      <li><div class="step-n">1</div><div class="step-p"><span class="step-b">Abordagem.</span> Equipe identifica lojistas pelo crachá. Foco em pet shops, distribuidores, clínicas vet.</div></li>
+      <li><div class="step-n">2</div><div class="step-p"><span class="step-b">Convite.</span> "Você conhece a YoloPet? Passa aqui, te mostro a linha e a condição especial de junho."</div></li>
+      <li><div class="step-n">3</div><div class="step-p"><span class="step-b">Pitch no balcão.</span> Produto na mão, tabela visível. Qualidade premium, preço de fábrica direta.</div></li>
+      <li><div class="step-n">4</div><div class="step-p"><span class="step-b">Coleta no tablet.</span> Nome, CNPJ, WhatsApp, tipo de negócio, interesse.</div></li>
+      <li><div class="step-n">5</div><div class="step-p"><span class="step-b">Follow-up pós-feira.</span> Até 3 dias — WhatsApp com catálogo, tabela e oferta de junho.</div></li>
+    </ul>
+    <div class="g3">
+      <div class="mc">
+        <div class="mc-l">Capturar</div>
+        <div class="mc-v">Nome · CNPJ · WhatsApp</div>
+        <div class="mc-s">Campos obrigatórios</div>
+      </div>
+      <div class="mc">
+        <div class="mc-l">Qualificar</div>
+        <div class="mc-v">Tipo de negócio + interesse</div>
+        <div class="mc-s">Para priorizar follow-up</div>
+      </div>
+      <div class="mc">
+        <div class="mc-l">Converter</div>
+        <div class="mc-v">Oferta de junho</div>
+        <div class="mc-s">Pedido até 30/06</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="hdiv">
+
+  <!-- 08 PONTOS DIEGO -->
+  <div class="sec">
+    <div class="sec-eyebrow">08 — Pontos Diego</div>
+
+    <div class="sn-card">
+      <div class="sn-num">Nota 01</div>
+      <div class="sn-title">Seller e lojista não são excludentes — e o seller pode andar sozinho</div>
+      <div class="sn-body">O foco no lojista é a construção de canal e marca. O seller se beneficia disso por contágio. Mas <strong>proponho que já operemos o seller sem marca desde agora</strong>: white label, logística corrigida e otimizada, foco nos detalhes que o seller valoriza. Seller sem marca é um negócio limpo. Com marca consolidada no lojista, o seller vira canal adicional — não a base.</div>
+      <div class="sn-tag">Ação imediata</div>
+    </div>
+
+    <div class="sn-card">
+      <div class="sn-num">Nota 02</div>
+      <div class="sn-title">Estamos declarando criação antes de validar — e isso tem risco</div>
+      <div class="sn-body">O movimento atual é incerto: assumimos um posicionamento antes de termos produto consagrado, canal desenvolvido ou pesquisa que o sustente. <strong>Lançamento de produto precisa casar com pesquisa prévia</strong> — entender onde e como queremos nos posicionar antes de ir ao mercado. O erro clássico é entregar "mais barato" ou "mais qualidade" como se fossem proposta. Por vezes o cliente não quer qualidade — quer preço. Em outras, o inverso. As nuances são muitas e precisam ser mapeadas antes, não durante.</div>
+      <div class="sn-tag">Ponto de atenção</div>
+    </div>
+
+    <div class="sn-card">
+      <div class="sn-num">Nota 03</div>
+      <div class="sn-title">O mercado PET cresce — mas cresce em todos os lados</div>
+      <div class="sn-body">O setor cresce substancialmente ano a ano. Mas <strong>cresce também em fornecedores, em sellers ruins e em lojistas sem critério</strong>. Crescimento de mercado não é proteção — é convite para mais concorrência. Não basta jogar a rede para pescar aqui. A qualificação de com quem trabalhamos é tão importante quanto a captação. Volume sem critério dilui marca e margem.</div>
+      <div class="sn-tag">Visão de mercado</div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="foot">
+    <div class="foot-t">YOLO Calmart · AmigosPet 2026</div>
+    <div class="foot-b">YoloPet</div>
+  </div>
+
+</div>
+</body>
+</html>
